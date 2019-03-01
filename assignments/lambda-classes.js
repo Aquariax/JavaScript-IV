@@ -1,6 +1,19 @@
 // CODE here for your Lambda Classes
 // #### Person
 
+
+class Person{
+    constructor(persAtt){
+        this.name = persAtt.name;
+        this.age = persAtt.age;
+        this.location= persAtt.location;
+        this.gender = persAtt.gender;
+    }
+    speak(){
+        return(`Hello my name is ${this.name}, I am from ${this.location}`)
+    }
+};
+
 // * First we need a Person class. This will be our `base-class`
 // * Person receives `name` `age` `location` `gender` all as props
 // * Person receives `speak` as a method.
@@ -17,6 +30,21 @@
 // * Instructor has the following methods:
 //   * `demo` receives a `subject` string as an argument and logs out the phrase 'Today we are learning about {subject}' where subject is the param passed in.
 //   * `grade` receives a `student` object and a `subject` string as arguments and logs out '{student.name} receives a perfect score on {subject}'
+class Instructor extends Person{
+    constructor(instAtt){
+        super(instAtt)
+        this.specialty = instAtt.specialty;
+        this.favLanguage = instAtt.favLanguage;
+        this.catchPhrase = instAtt.catchPhrase;
+    }
+    demo(subject){
+        return (`Today we are learning about ${subject}`)
+    };
+    grade(student,subject){
+        return(`${student.name} receives a perfect score on ${subject}`)
+    }
+}
+
 
 // #### Student
 
@@ -31,6 +59,24 @@
 //   * `PRAssignment` a method that receives a subject as an argument and logs out that the `student.name has submitted a PR for {subject}`
 //   * `sprintChallenge` similar to PRAssignment but logs out `student.name has begun sprint challenge on {subject}`
 
+class Student extends Person{
+    constructor(studAtt){
+        super(studAtt)
+        this.previousBackground = studAtt.previousBackground;
+        this.className = studAtt.className;
+        this.favSubjects = studAtt.favSubjects;
+    }
+    listsSubjects(){
+        return(`${this.favSubjects}`)
+    };
+    PRAssignment(subject){
+        return(`${this.name} has submitted a PR for ${subject}`)
+    };
+    sprintChallenge(subject){
+        return(`${this.name} has begun sprint challenge on ${subject}`)
+    }
+}
+
 // #### Project Manager
 
 // * Now that we have instructors and students, we'd be nowhere without our PM's
@@ -41,3 +87,49 @@
 // * ProjectManagers have the following Methods:
 //   * `standUp` a method that takes in a slack channel and logs `{name} announces to {channel}, @channel standy times!​​​​​
 //   * `debugsCode` a method that takes in a student object and a subject and logs out `{name} debugs {student.name}'s code on {subject}`
+
+class ProjectManager extends Instructor{
+constructor(proAtt){
+    super(proAtt)
+    this.gradClassName= proAtt.gradClassName ;
+    this.favInstructor = proAtt.favInstructor;
+    }
+    standUp(channel){
+        return(`${this.name} announces to ${channel}, @channel standy times!​​​​​`)
+    }
+    debugsCode(student, subject){
+        return(`${this.name} debugs ${student.name}'s code on ${subject}`)
+    }
+};
+const hp = new Student({
+name: "jamie",
+gender: "female",
+location: "Washington D.C.",
+previousBackground: "Bank Teller",
+className: "FSW18",
+favSubjects:[
+    "math", 
+    "science", 
+    "web dev"
+]
+})
+
+const dell = new ProjectManager({
+name: "dale",
+age: 19,
+location:"SanFrancisco",
+gender: 'male',
+specialty: 'React',
+gradClassName: "FSW13",
+favLanguage: "JavaScript",
+favInstructor: "Josh",
+catchPhrase: "some catchphrase here"
+})
+console.log(dell.standUp("FSW Dale"));
+console.log(hp.sprintChallenge("JavaScript III"));
+console.log(dell.debugsCode(hp, "JavaScript IV"));
+console.log(hp.PRAssignment("JavaScript IV"));
+console.log(hp.listsSubjects());
+console.log(dell.speak());
+console.log(dell.demo("redux"));
+console.log(dell.grade(hp, "JavaScript III"));

@@ -14,11 +14,13 @@ Prototype Refactor
   * dimensions (These represent the character's size in the video game)
   * destroy() // prototype method that returns: `${this.name} was removed from the game.`
 */
-function GameObject(attr){
-    this.createdAt= attr.createdAt,
-    this.name = attr.name,
-    this.dimensions = attr.dimensions,
-    this.destroy = function(){
+class GameObject{
+  constructor(attr){
+    this.createdAt= attr.createdAt;
+    this.name = attr.name;
+    this.dimensions = attr.dimensions;
+  }
+    destroy(){
       return(`${this.name} was removed from the game.`)
     }
   }
@@ -28,10 +30,12 @@ function GameObject(attr){
     * takeDamage() // prototype method -> returns the string '<object name> took damage.'
     * should inherit destroy() from GameObject's prototype
   */
-  function CharacterStats(charAttr){
-    GameObject.call(this, charAttr);
+  class CharacterStats extends GameObject{
+    constructor(charAttr){
+      super(charAttr)
     this.healthPoints = charAttr.healthPoints;
-    this.takeDamage = function(){
+    }
+    takeDamage(){
       return(`${this.name} took damage.`)
     }
   }
@@ -45,12 +49,14 @@ function GameObject(attr){
     * should inherit destroy() from GameObject through CharacterStats
     * should inherit takeDamage() from CharacterStats
   */
-   function Humanoid(humanAttr){
-     CharacterStats.call(this, humanAttr);
+   class Humanoid extends CharacterStats{
+     constructor(humanAttr){
+       super(humanAttr)
      this.team = humanAttr.team;
      this.weapons = humanAttr.weapons;
      this.language = humanAttr.language;
-     this.greet = function(){
+     }
+     greet(){
        return(`${this.name} offers a greeting in ${this.language}.`)
      }
    }
@@ -122,4 +128,4 @@ function GameObject(attr){
     console.log(archer.language); // Elvish
     console.log(archer.greet()); // Lilith offers a greeting in Elvish.
     console.log(mage.takeDamage()); // Bruce took damage.
-    console.log(swordsman.destroy()); // Sir Mustachio w
+    console.log(swordsman.destroy()); // Sir Mustachio was removed from the game.
